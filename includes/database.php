@@ -1,7 +1,7 @@
 <?php
 
-$db = mysqli_connect('localhost', 'root', 'admin', 'AppSalon');
- // $db = new mysqli('Localhost','root', 's1t3ur@dmin', 'AppSalon');
+$db = mysqli_connect('localhost', 'root', 'admin', 'appsalon_mvc');
+ // $db = new mysqli('Localhost','root', 's1t3ur@dmin', 'appsalon_mvc');
 
 
 
