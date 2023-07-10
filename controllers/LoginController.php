@@ -2,7 +2,9 @@
 
 namespace Controllers;
 
+use Classes\Email;
 use Model\usuario;
+use Model\Usuario as ModelUsuario;
 use MVC\Router;
 
 class LoginController
@@ -44,14 +46,69 @@ class LoginController
       $alertas = $usuario->validarNuevaCuenta();
 
       //revisar que alerta esté vacio
-      if (empty($alertas))
-        echo "si";
+
+      if (empty($alertas)) {
+        $resultado = $usuario->existeUsuario();
+
+        if ($resultado->num_rows) {
+          $alertas = Usuario::getAlertas(); //si hay alertas "nuevas" despues de pasar los filtros, reiniciamos la variable tomando las alertas que se generan en existeUsuario() en modelo: usuario
+        } else {
+          //hashear el password
+          $usuario->hashPassword();
+          //generar token único
+          $usuario->generarToken();
+          //enviar email
+          $email = new Email($usuario->email, $usuario->nombre, $usuario->token);
+          $email->enviarConfirmacion();
+
+          $alertas = ModelUsuario::getAlertas();
+
+          $resultado = $usuario->guardar();
+          if ($resultado)
+           header('Location: /mensaje');
+        }
+      }
     }
 
 
 
     $router->renderView('auth/crear-cuenta', [
       'usuario' => $usuario,
+      'alertas' => $alertas
+    ]);
+  }
+
+
+  public static function mensaje(Router $router)
+  {
+    $router->renderView('auth/mensaje');
+  }
+
+  public static function confirmar(Router $router)
+  {
+    $alertas = [];
+    $token = s($_GET['token']);
+
+    $usuario = Usuario::where('token',$token);
+
+    if(empty($usuario)|| $usuario->token === '')
+    {
+      //mostrar mensaje de error
+      Usuario::setAlerta('error','Token no válido');
+    }
+    else
+    {
+      //modificar usuario confirmado
+     
+      $usuario->confirmado = 1;
+      $usuario->token = '';
+      $usuario->guardar();
+      Usuario::setAlerta('exito','Cuenta comprobada correctamente');
+
+    }
+
+    $alertas = Usuario::getAlertas();
+    $router->renderView('auth/confirmar-cuenta', [
       'alertas' => $alertas
     ]);
   }

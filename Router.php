@@ -28,7 +28,9 @@ class Router
 
         // $auth = $_SESSION['login'] ?? null;
 
+        // debuguear($_SERVER);
         $currentUrl = $_SERVER['PATH_INFO'] ?? '/';
+        // $currentUrl = strtok($_SERVER['PATH_INFO'], '?') ?? '/';  
         $method = $_SERVER['REQUEST_METHOD'];
 
         if ($method === 'GET') { //obtengo la función que contiene la ruta actual, debe existir dicha llave en el arreglo rutasGet
