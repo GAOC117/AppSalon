@@ -56,7 +56,21 @@ class Usuario extends ActiveRecord
             self::$alertas['error'][] = 'El telefono es obligatorio';
 
 
+        return self::$alertas;
+    }
 
+
+
+    public function validarLogin()
+    {
+        if(!$this->email)
+        {
+           self::$alertas['error'][]='El email es obligatorio';
+        }
+        if(!$this->password)
+        {
+            self::$alertas['error'][]='El password es obligatorio';
+        }
 
 
         return self::$alertas;

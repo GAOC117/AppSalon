@@ -12,7 +12,20 @@ class LoginController
 
   public static function login(Router $router)
   {
-    $router->renderView('auth/login', []);
+    $alertas = [];
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+      $auth = new Usuario($_POST);
+      $alertas = $auth->validarLogin();
+      if (empty($alertas)) {
+        //comprobar que exista el usuario
+        $usuario = Usuario::where('email',$auth->email);
+      }
+    }
+
+    $router->renderView('auth/login', [
+      'alertas' => $alertas,
+      'auth' => $auth
+    ]);
   }
 
   public static function logout(Router $router)
@@ -65,7 +78,7 @@ class LoginController
 
           $resultado = $usuario->guardar();
           if ($resultado)
-           header('Location: /mensaje');
+            header('Location: /mensaje');
         }
       }
     }
@@ -89,22 +102,18 @@ class LoginController
     $alertas = [];
     $token = s($_GET['token']);
 
-    $usuario = Usuario::where('token',$token);
+    $usuario = Usuario::where('token', $token);
 
-    if(empty($usuario)|| $usuario->token === '')
-    {
+    if (empty($usuario) || $usuario->token === '') {
       //mostrar mensaje de error
-      Usuario::setAlerta('error','Token no válido');
-    }
-    else
-    {
+      Usuario::setAlerta('error', 'Token no válido');
+    } else {
       //modificar usuario confirmado
-     
+
       $usuario->confirmado = 1;
       $usuario->token = '';
       $usuario->guardar();
-      Usuario::setAlerta('exito','Cuenta comprobada correctamente');
-
+      Usuario::setAlerta('exito', 'Cuenta comprobada correctamente');
     }
 
     $alertas = Usuario::getAlertas();
