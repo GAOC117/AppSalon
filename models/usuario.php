@@ -63,32 +63,35 @@ class Usuario extends ActiveRecord
 
     public function validarLogin()
     {
-        if(!$this->email)
-        {
-           self::$alertas['error'][]='El email es obligatorio';
+        if (!$this->email) {
+            self::$alertas['error'][] = 'El email es obligatorio';
         }
-        if(!$this->password)
-        {
-            self::$alertas['error'][]='El password es obligatorio';
+        if (!$this->password) {
+            self::$alertas['error'][] = 'El password es obligatorio';
         }
-
-
         return self::$alertas;
     }
 
-    //revisa si el usuario existel 
+
+    public function validarEmail()
+    {
+        if (!$this->email) {
+            self::$alertas['error'][] = 'El email es obligatorio';
+        }
+        return self::$alertas;
+    }
+
+    //revisa si el usuario existe
     public function existeUsuario()
     {
         $query = "SELECT * FROM " . self::$tabla . " WHERE email = '" . $this->email . "' LIMIT 1"; //al mandar a llamar esta funcion ya existe para esas alturas un email capturado
         $resultado = self::$db->query($query);
-      
-        if($resultado->num_rows)
-        {
+
+        if ($resultado->num_rows) {
             self::$alertas['error'][] = 'El usuario ya está registrado';
         }
 
         return $resultado;
-        
     }
 
 
@@ -101,5 +104,15 @@ class Usuario extends ActiveRecord
     public function generarToken()
     {
         $this->token = uniqid();
+    }
+
+
+    public function comprobarPasswordAndVerificado($password)
+    {
+        $resultado = password_verify($password, $this->password);
+        if (!$resultado || !$this->confirmado) {
+            self::$alertas['error'][] = 'Password incorrecto o la cuenta no ha sido confirmada';
+        } else
+            return true;
     }
 }
