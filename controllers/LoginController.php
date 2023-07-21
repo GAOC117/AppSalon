@@ -75,29 +75,49 @@ class LoginController
           $usuario->guardar();
 
           //enviar email
-          $email = new Email($usuario->email,$usuario->nombre, $usuario->token);
+          $email = new Email($usuario->email, $usuario->nombre, $usuario->token);
           $email->enviarInstracciones();
 
 
-          Usuario::setAlerta('exito','Revisa tu email');
+          Usuario::setAlerta('exito', 'Revisa tu email');
         } else {
           //no existe o no esta confirmado
           Usuario::setAlerta('error', 'El usuario no existe o no está confirmado');
-          
         }
       }
     }
-    
+
     $alertas = Usuario::getAlertas();
-    
+
     $router->renderView('auth/olvide-password', [
       'alertas' => $alertas
     ]);
   }
 
-  public static function recuperar()
+  public static function recuperar(Router $router)
   {
-    echo 'recuperar';
+    $alertas = [];
+    $error = false;
+    $token = s($_GET['token']);
+
+    //buscar usuario por token
+    $usuario = Usuario::where('token', $token);
+
+    if (empty($usuario)) {
+      Usuario::setAlerta('error', 'Token no valido');
+      $error = true;
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+      //enviar y actualizar password
+      $password = new Usuario($_POST);
+    }
+
+    $alertas = Usuario::getAlertas();
+    $router->renderView('auth/recuperar-password', [
+      'alertas' => $alertas,
+      'error' => $error
+    ]);
   }
 
   public static function crear(Router $router)

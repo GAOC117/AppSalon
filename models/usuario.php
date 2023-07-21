@@ -81,6 +81,11 @@ class Usuario extends ActiveRecord
         return self::$alertas;
     }
 
+    public function validarPassword()
+    {
+        
+    }
+
     //revisa si el usuario existe
     public function existeUsuario()
     {
