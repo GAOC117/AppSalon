@@ -111,6 +111,18 @@ class LoginController
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       //enviar y actualizar password
       $password = new Usuario($_POST);
+      $alertas = $password->validarPassword();
+
+      if (empty($alertas)) {
+        $usuario->password = $password->password;
+        $usuario->hashPassword();
+        $usuario->token = '';
+        $resultado = $usuario->guardar();
+
+        if ($resultado) {
+          header('Location: /');
+        }
+      }
     }
 
     $alertas = Usuario::getAlertas();
