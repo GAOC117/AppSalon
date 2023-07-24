@@ -26,7 +26,7 @@
 
             <div class="campo">
                 <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" placeholder="Tu nombre" value="<?php echo $nombre;?>" disabled>
+                <input type="text" id="nombre" placeholder="Tu nombre" value="<?php echo $nombre; ?>" disabled>
             </div>
 
             <div class="campo">
@@ -52,18 +52,18 @@
         <button id="anterior" class="boton">
             &laquo; Anterior
         </button>
-        
+
         <button id="siguiente" class="boton">
-           Siguiente &raquo; 
+            Siguiente &raquo;
         </button>
-       
+
     </div>
 
 </div>
 
 
-<?php 
-    $script = "
+<?php
+$script = "
     <script src='build/js/app.js'></script>
     
     

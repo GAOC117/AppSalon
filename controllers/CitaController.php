@@ -11,6 +11,9 @@ class CitaController
     public static function index(Router $router)
     {
 
+
+    
+
         session_start();
        $router->renderView('cita/index',[
         'nombre'=>$_SESSION['nombre']
