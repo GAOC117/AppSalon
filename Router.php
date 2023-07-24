@@ -39,7 +39,6 @@ class Router
             $fn = $this->postRoutes[$currentUrl] ?? null;
         }
 
-debuguear($fn);
         if ( $fn ) { //la url existe y hay una función asociada
             //nombre de la funcion, y parametros que va a recibir, en este caso se envia este mismo objeto por asi decirlo, las variables
             // Call user fn va a llamar una función cuando no sabemos cual sera
