@@ -120,8 +120,8 @@ class ActiveRecord {
         $query = "SELECT * FROM " . static::$tabla  ." WHERE $columna = '".$valor."'";
         $resultado = self::consultarSQL($query);
        
-        // return array_shift( $resultado ) ;
-        return  $resultado ;
+        return array_shift( $resultado ) ;
+    //    return  $resultado ;
     }
 
     // Obtener Registros con cierta cantidad
