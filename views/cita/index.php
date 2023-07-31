@@ -60,6 +60,27 @@
     </div>
 
 </div>
+<!-- 
+<form  onchange="prueba()">
+
+
+<select name="id" id="cars">
+    <option value="" disabled selected>--Seleccionar--</option>
+   <?php ""// foreach ($valor as $value ) {?>
+
+    <option value = "<?php //echo $value->id?>"><?php //echo $value->nombre.' '.$value->precio?></option>
+
+
+<?php //} ?>    
+</select>
+
+<select name="modelo" id="modelo">
+    
+    </select>
+    
+
+</form> -->
+
 
 
 <?php
