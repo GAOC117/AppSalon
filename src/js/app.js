@@ -4,6 +4,13 @@ const pasoInicial = 1;
 const pasoFinal = 3;
 
 
+const cita ={
+    nombre: '',
+    fecha: '',
+    hora: '',
+    servicios: []
+}
+
 
 
 
@@ -140,6 +147,7 @@ function mostrarServicios(servicios){
 
     servicios.forEach(servicio=>{
         const{id,nombre,precio} = servicio;
+        
 
         const nombreServicio = document.createElement('P');
         nombreServicio.classList.add('nombre-servicio');
@@ -152,6 +160,9 @@ function mostrarServicios(servicios){
         const servicioDiv = document.createElement('DIV');
         servicioDiv.classList.add('servicio');
         servicioDiv.dataset.idServicio = id;
+        servicioDiv.onclick = function (){
+            seleccionarServicio(servicio);
+        }
 
         servicioDiv.appendChild(nombreServicio);
         servicioDiv.appendChild(precioServicio);
@@ -161,6 +172,13 @@ function mostrarServicios(servicios){
 
     })
 
+}
+
+function seleccionarServicio(servicio){
+    const { servicios } = cita;
+
+    cita.servicios = [...servicios, servicio];
+    console.log(cita);
 }
 
 
@@ -179,14 +197,14 @@ function mostrarServicios(servicios){
 
 //         modelo.innerHTML = "";
 
-//         servicios.forEach(servicio=>{
+//         servicios.forEach(serviciox=>{
 
-//             const{id,nombre, precio} = servicio;
+//             const{id,nombre, precio} = serviciox;
 //             const option = document.createElement("option");
 //             option.text = nombre+' '+precio;
 //             option.value = id;
 //             modelo.appendChild(option);
-
+           
 //         })
 
         
