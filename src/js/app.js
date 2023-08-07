@@ -29,6 +29,7 @@ function iniciarApp() {
     paginaSiguiente();
     paginaAnterior();
     consultarAPI(); //consulta la API en el backend de php
+    nombreCliente();
 }
 
 
@@ -175,9 +176,23 @@ function mostrarServicios(servicios){
 }
 
 function seleccionarServicio(servicio){
+    const { id } = servicio;    
     const { servicios } = cita;
 
-    cita.servicios = [...servicios, servicio];
+    const divServicio = document.querySelector(`[data-id-servicio="${id}"]`);
+    //comprobar si un servicio ya fue agregado o quitarlo
+    if(servicios.some(agregado => agregado.id === id )){
+        //eliminar
+        cita.servicios = servicios.filter(agregado => agregado.id !== id);
+        divServicio.classList.remove('seleccionado');
+    }else{
+        //agregarlo
+        cita.servicios = [...servicios, servicio];
+        divServicio.classList.add('seleccionado');
+    }
+
+    
+   
     console.log(cita);
 }
 
