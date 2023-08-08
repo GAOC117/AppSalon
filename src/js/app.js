@@ -29,7 +29,8 @@ function iniciarApp() {
     paginaSiguiente();
     paginaAnterior();
     consultarAPI(); //consulta la API en el backend de php
-    nombreCliente();
+    nombreCliente(); //añade el nombre del cliente al objeto de cita
+    seleccionarFecha(); //añade la fecha de la cita en el objeto
 }
 
 
@@ -178,6 +179,7 @@ function mostrarServicios(servicios){
 function seleccionarServicio(servicio){
     const { id } = servicio;    
     const { servicios } = cita;
+    console.log(id);
 
     const divServicio = document.querySelector(`[data-id-servicio="${id}"]`);
     //comprobar si un servicio ya fue agregado o quitarlo
@@ -193,9 +195,18 @@ function seleccionarServicio(servicio){
 
     
    
-    console.log(cita);
+     console.log(cita);
 }
 
+
+
+function nombreCliente(){
+    cita.nombre = document.querySelector('#nombre').value;  
+}
+
+function seleccionarFecha(){
+    
+}
 
 // async function prueba() {
     
