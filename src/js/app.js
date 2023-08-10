@@ -31,6 +31,7 @@ function iniciarApp() {
     consultarAPI(); //consulta la API en el backend de php
     nombreCliente(); //añade el nombre del cliente al objeto de cita
     seleccionarFecha(); //añade la fecha de la cita en el objeto
+    seleccionarHora(); //añade la hora de la cita en el objeto
 }
 
 
@@ -205,8 +206,60 @@ function nombreCliente(){
 }
 
 function seleccionarFecha(){
-    
+    const inputFecha = document.querySelector('#fecha');
+    inputFecha.addEventListener('input', (e) => {
+        const dia = new Date(e.target.value).getUTCDay();
+        console.log(dia);
+        if([6,0].includes(dia)){
+            e.target.value ='';
+            mostrarAlerta('Fines de semana no laboramos', 'error');
+        }
+        else
+        {
+            cita.fecha= e.target.value;
+        }
+    });
 }
+
+function seleccionarHora(){
+    const inputHora = document.querySelector('#hora');
+    inputHora.addEventListener('input', function(e) {
+       
+   
+         const horaCita = e.target.value;
+    const hora = horaCita.split(':')[0];
+        if(hora < 10 || hora >= 18){
+            e.target.value='';
+            mostrarAlerta('Horario no valido', 'error');
+        }
+        else
+        {
+            cita.hora = e.target.value;
+        }
+    })
+}
+
+function mostrarAlerta(mensaje, tipo){
+
+    const alertaPrevia = document.querySelector('.alerta');
+
+    if(alertaPrevia) return;
+    
+    const alerta = document.createElement('DIV');
+
+    alerta.textContent = mensaje;
+    alerta.classList.add('alerta');
+    alerta.classList.add(tipo);
+
+    const formulario = document.querySelector('.formulario');
+    formulario.appendChild(alerta);
+
+
+    setTimeout(() => {
+        alerta.remove();  
+    }, 3000);
+}
+
 
 // async function prueba() {
     
