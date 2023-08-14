@@ -32,6 +32,7 @@ function iniciarApp() {
     nombreCliente(); //añade el nombre del cliente al objeto de cita
     seleccionarFecha(); //añade la fecha de la cita en el objeto
     seleccionarHora(); //añade la hora de la cita en el objeto
+    mostrarResumen(); //muestra el resumen de la cita
 }
 
 
@@ -79,6 +80,8 @@ function tabs() {
             mostrarSeccion();
             botonesPaginador();
 
+           
+
         })
     })
 }
@@ -122,6 +125,7 @@ function botonesPaginador() {
     else if (paso === 3) {
         paginaAnterior.classList.remove('ocultar');
         paginaSiguiente.classList.add('ocultar');
+        mostrarResumen();
     }
     else {
         paginaAnterior.classList.remove('ocultar');
@@ -162,7 +166,7 @@ function mostrarServicios(servicios){
 
         const servicioDiv = document.createElement('DIV');
         servicioDiv.classList.add('servicio');
-        servicioDiv.dataset.idServicio = id;
+        servicioDiv.dataset.idServicio = id; //data-id-servicio = #
         servicioDiv.onclick = function (){
             seleccionarServicio(servicio);
         }
@@ -186,11 +190,11 @@ function seleccionarServicio(servicio){
     //comprobar si un servicio ya fue agregado o quitarlo
     if(servicios.some(agregado => agregado.id === id )){
         //eliminar
-        cita.servicios = servicios.filter(agregado => agregado.id !== id);
+        cita.servicios = servicios.filter(agregado => agregado.id !== id); //regresa  todos los elementos diferentes al id seleccionado y sobre escribe a servicios
         divServicio.classList.remove('seleccionado');
     }else{
         //agregarlo
-        cita.servicios = [...servicios, servicio];
+        cita.servicios = [...servicios, servicio]; //en servicios va acumulando el servicio que se le de click (... spread operator)
         divServicio.classList.add('seleccionado');
     }
 
@@ -223,10 +227,9 @@ function seleccionarFecha(){
 
 function seleccionarHora(){
     const inputHora = document.querySelector('#hora');
-    inputHora.addEventListener('input', function(e) {
-       
-   
-         const horaCita = e.target.value;
+    inputHora.addEventListener('input', function(e) 
+    {
+    const horaCita = e.target.value;
     const hora = horaCita.split(':')[0];
         if(hora < 10 || hora >= 18){
             e.target.value='';
@@ -260,6 +263,14 @@ function mostrarAlerta(mensaje, tipo){
     }, 3000);
 }
 
+
+function mostrarResumen(){
+    const result = document.querySelector('.contenido-resumen');
+
+    if(Object.values(cita).includes('')){
+
+    }
+}
 
 // async function prueba() {
     
