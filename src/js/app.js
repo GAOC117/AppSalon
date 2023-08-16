@@ -1,11 +1,13 @@
 
 
+
 let paso = 1; //si usamos localStorage seria quitar este
 const pasoInicial = 1;
 const pasoFinal = 3;
 
 
 const cita ={
+    id: '',
     nombre: '',
     fecha: '',
     hora: '',
@@ -18,22 +20,27 @@ const cita ={
 
 document.addEventListener('DOMContentLoaded', function () {
     iniciarApp();
+
 })
 
 
 
 
 function iniciarApp() {
+    
+  
     mostrarSeccion();
     tabs(); //cambia la seccion cuando se presionen los tabs
     botonesPaginador();//agrega o quita los botones del paginador
     paginaSiguiente();
     paginaAnterior();
     consultarAPI(); //consulta la API en el backend de php
+    idcliente();
     nombreCliente(); //añade el nombre del cliente al objeto de cita
     seleccionarFecha(); //añade la fecha de la cita en el objeto
     seleccionarHora(); //añade la hora de la cita en el objeto
     mostrarResumen(); //muestra el resumen de la cita
+    
 }
 
 
@@ -92,7 +99,7 @@ function paginaSiguiente() {
     botonSiguiente.addEventListener('click', function () {
         if (paso >= pasoFinal) return;
         paso++;
-
+       
 
         botonesPaginador();
         mostrarSeccion();
@@ -140,6 +147,7 @@ async function consultarAPI() {
 
     try {
             const url ='http://localhost:3000/api/servicios';
+            // const url ='http://127.0.0.1:3000/api/servicios';
             const resultado = await fetch(url);
             const servicios = await resultado.json();
             mostrarServicios(servicios);
@@ -151,7 +159,27 @@ async function consultarAPI() {
     
 }
 
+
+//si se pudiera crear un area de notificaciones, que consulte una api y si hay una nueva notificacion mostrarla
+// let x=0;
+// function reloj(){
+//     const npagina = document.querySelector('.app p');
+//     npagina.innerHTML='';
+//     const parrafo = document.createElement('P');
+//     parrafo.textContent = x;
+//     parrafo.classList.add('precio-servicio');
+//     npagina.appendChild(parrafo);
+//     console.log("reloj");
+//     x++;
+// }
+// setInterval(reloj,1000);
+//  setInterval(consultarAPI, 3000); prueba para consultar la base de datos para ver si funciona para notificaciones
+
 function mostrarServicios(servicios){
+
+
+    const hashServicios = document.querySelector('#servicios');
+    hashServicios.innerHTML = '';
 
     servicios.forEach(servicio=>{
         const{id,nombre,precio} = servicio;
@@ -170,13 +198,15 @@ function mostrarServicios(servicios){
         servicioDiv.dataset.idServicio = id; //data-id-servicio = #
         servicioDiv.onclick = function (){
             seleccionarServicio(servicio);
+
+            
         }
 
         servicioDiv.appendChild(nombreServicio);
         servicioDiv.appendChild(precioServicio);
 
-        document.querySelector('#servicios').appendChild(servicioDiv);
-
+       hashServicios.appendChild(servicioDiv);
+       
 
     })
 
@@ -185,7 +215,7 @@ function mostrarServicios(servicios){
 function seleccionarServicio(servicio){
     const { id } = servicio;    
     const { servicios } = cita;
-    console.log(id);
+    // console.log(id);
 
     const divServicio = document.querySelector(`[data-id-servicio="${id}"]`);
     //comprobar si un servicio ya fue agregado o quitarlo
@@ -201,11 +231,14 @@ function seleccionarServicio(servicio){
 
     
    
-     console.log(cita);
+    //  console.log(cita);
 }
 
 
 
+function idcliente(){
+    cita.id = document.querySelector('#id').value;  
+}
 function nombreCliente(){
     cita.nombre = document.querySelector('#nombre').value;  
 }
@@ -214,7 +247,7 @@ function seleccionarFecha(){
     const inputFecha = document.querySelector('#fecha');
     inputFecha.addEventListener('input', (e) => {
         const dia = new Date(e.target.value).getUTCDay();
-        console.log(dia);
+        // console.log(dia);
         if([6,0].includes(dia)){
             e.target.value ='';
             mostrarAlerta('Fines de semana no laboramos', 'error', '.formulario');
@@ -319,21 +352,95 @@ headingCita.textContent = 'Resumen de Cita';
 resumen.appendChild(headingCita);
     
     const nombreCliente = document.createElement('P');
-    nombreCliente.innerHTML = `<span>Nombre: </span> "${nombre}"`;
+    nombreCliente.innerHTML = `<span>Nombre: </span>${nombre}`;
+
+
+    //formatear la fecha en español 
+const fechaObj = new Date(fecha);
+const mes = fechaObj.getMonth();
+const dia = fechaObj.getDate() + 2; //porque cada new date desfasa en 1, uno arriba y otro abajo
+const year = fechaObj.getFullYear();
+
+
+const fechaUTC = new Date(Date.UTC(year, mes, dia));
+
+const opciones ={weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}
+const fechaFormateada = fechaUTC.toLocaleDateString('es-MX', opciones);
 
     const fechaCita = document.createElement('P');
-    fechaCita.innerHTML = `<span>Fecha: </span> "${fecha}"`;
+    fechaCita.innerHTML = `<span>Fecha: </span> ${fechaFormateada}`;
 
     const horaCita = document.createElement('P');
-    horaCita.innerHTML = `<span>Hora: </span> "${hora}" horas`;
+    horaCita.innerHTML = `<span>Hora: </span> ${hora} horas`;
+
+    //Boton para crear cita
+    const botonReservar = document.createElement('BUTTON');
+    botonReservar.classList.add('boton');
+    botonReservar.textContent = 'Reservar cita';
+    botonReservar.onclick = reservarCita; //si requiere algun parametroa seria = function () { reservarCita(parmetro)}
 
     
     resumen.appendChild(nombreCliente);
     resumen.appendChild(fechaCita);
     resumen.appendChild(horaCita);
 
+    resumen.appendChild(botonReservar);
 }
 
+
+async function reservarCita(){
+
+    const {nombre, fecha, hora, servicios, id} = cita;
+    
+    const idServicios = servicios.map(servicio => servicio.id)
+    
+    const datos = new FormData(); //FormData actua como submit en javaScript
+    datos.append('fecha', fecha);
+    datos.append('hora', hora);
+    datos.append('usuarioId', id);
+    datos.append('servicios', idServicios);
+    
+    // datos.append('nombre','corella');
+    // console.log([...datos]);
+
+    try{
+
+        
+        const url = 'http://localhost:3000/api/citas';
+        
+    const respuesta = await fetch(url,{
+        
+        method: 'POST',
+        body: datos
+    });
+
+    const resultado = await respuesta.json();
+    console.log(resultado);
+    if(resultado.resultado){
+        Swal.fire({
+            icon: 'success',
+            title: 'Exito',
+            text: 'Cita creada con éxito con el id '+resultado.id,
+            button: 'OK'
+            // footer: '<a href="">Why do I have this issue?</a>'
+        }).then(()=>{
+            setTimeout(() => {
+                window.location.reload();
+                
+            }, 3000);
+        })
+    }
+}
+catch(error)
+{
+    Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Hubo un error al guardar la cita',
+        button: 'OK'
+      })
+}
+}
 // async function prueba() {
     
     

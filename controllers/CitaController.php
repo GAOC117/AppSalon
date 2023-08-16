@@ -17,8 +17,9 @@ class CitaController extends ActiveRecord
      
         session_start();
        $router->renderView('cita/index',[
-        'nombre'=>$_SESSION['nombre']
-        //'valor' =>$valor
+           'nombre'=>$_SESSION['nombre'],
+           'id'=>$_SESSION['id']
+           //'valor' =>$valor
         
 
        ]);

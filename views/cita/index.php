@@ -31,7 +31,8 @@
 
             <div class="campo">
                 <label for="fecha">Fecha</label>
-                <input type="date" id="fecha" min="<?php echo date('Y-m-d'); //strtotime('+1 day) suma un dia mas ?>">
+                <input type="date" id="fecha" min="<?php echo date('Y-m-d'); //strtotime('+1 day) suma un dia mas 
+                                                    ?>">
             </div>
 
 
@@ -40,6 +41,8 @@
                 <label for="hora">Hora</label>
                 <input type="time" id="hora">
             </div>
+
+            <input type="hidden" id="id" value="<?php echo $id;?>">
 
         </form>
     </div>
@@ -68,12 +71,16 @@
 
 <select name="id" id="cars">
     <option value="" disabled selected>--Seleccionar--</option>
-   <?php ""// foreach ($valor as $value ) {?>
+   <?php "" // foreach ($valor as $value ) {
+    ?>
 
-    <option value = "<?php //echo $value->id?>"><?php //echo $value->nombre.' '.$value->precio?></option>
+    <option value = "<?php //echo $value->id
+                        ?>"><?php //echo $value->nombre.' '.$value->precio
+                                                ?></option>
 
 
-<?php //} ?>    
+<?php //} 
+?>    
 </select>
 
 <select name="modelo" id="modelo">
@@ -87,6 +94,7 @@
 
 <?php
 $script = "
+<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
     <script src='build/js/app.js'></script>
     
     
