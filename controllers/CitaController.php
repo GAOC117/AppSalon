@@ -16,6 +16,7 @@ class CitaController extends ActiveRecord
    // $valor = Servicio::all();
      
         session_start();
+        isAuth();
        $router->renderView('cita/index',[
            'nombre'=>$_SESSION['nombre'],
            'id'=>$_SESSION['id']

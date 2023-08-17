@@ -1,6 +1,10 @@
 <h1 class="nombre-pagina">Crear nueva cita</h1>
 <p class="descripcion-pagina">Elige tus servicios y coloca tus datos</p>
 
+<?php
+    include_once __DIR__.'/../templates/barra.php';
+   
+?>
 
 <div id="app">
 
@@ -42,7 +46,7 @@
                 <input type="time" id="hora">
             </div>
 
-            <input type="hidden" id="id" value="<?php echo $id;?>">
+            <input type="hidden" id="id" value="<?php echo $id; ?>">
 
         </form>
     </div>
@@ -76,7 +80,7 @@
 
     <option value = "<?php //echo $value->id
                         ?>"><?php //echo $value->nombre.' '.$value->precio
-                                                ?></option>
+                            ?></option>
 
 
 <?php //} 
@@ -94,7 +98,7 @@
 
 <?php
 $script = "
-<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+    <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
     <script src='build/js/app.js'></script>
     
     

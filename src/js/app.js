@@ -401,7 +401,7 @@ async function reservarCita(){
     datos.append('servicios', idServicios);
     
     // datos.append('nombre','corella');
-    // console.log([...datos]);
+// console.log([...datos]);
 
     try{
 
@@ -415,13 +415,14 @@ async function reservarCita(){
     });
 
     const resultado = await respuesta.json();
-    console.log(resultado);
+  
     if(resultado.resultado){
+        console.log("si entre");
         Swal.fire({
             icon: 'success',
             title: 'Exito',
             text: 'Cita creada con éxito con el id '+resultado.id,
-            button: 'OK'
+            button: 'OK'    
             // footer: '<a href="">Why do I have this issue?</a>'
         }).then(()=>{
             setTimeout(() => {
@@ -439,6 +440,7 @@ catch(error)
         text: 'Hubo un error al guardar la cita',
         button: 'OK'
       })
+      console.log(error);
 }
 }
 // async function prueba() {
