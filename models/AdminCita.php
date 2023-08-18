@@ -12,7 +12,7 @@ class AdminCita extends ActiveRecord
     public $id;
     public $hora;
     public $cliente;
-    public $emai;
+    public $email;
     public $telefono;
     public $servicio;
     public $precio;
@@ -22,7 +22,7 @@ class AdminCita extends ActiveRecord
         $this->id = $args['id'] ?? null;
         $this->hora = $args['hora'] ?? '';
         $this->cliente = $args['cliente'] ?? '';
-        $this->emai = $args['emai'] ?? '';
+        $this->email = $args['email'] ?? '';
         $this->telefono = $args['telefono'] ?? '';
         $this->servicio = $args['servicio'] ?? '';
         $this->precio  = $args['precio'] ?? '';

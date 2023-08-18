@@ -32,13 +32,14 @@ class Router
         $currentUrl = $_SERVER['PATH_INFO'] ?? '/';
         // $currentUrl = strtok($_SERVER['PATH_INFO'], '?') ?? '/';  
         $method = $_SERVER['REQUEST_METHOD'];
-
+        
         if ($method === 'GET') { //obtengo la función que contiene la ruta actual, debe existir dicha llave en el arreglo rutasGet
             $fn = $this->getRoutes[$currentUrl] ?? null;//si no existe la llave, asiga null a $fn
         } else {
             $fn = $this->postRoutes[$currentUrl] ?? null;
         }
 
+        
         if ( $fn ) { //la url existe y hay una función asociada
             //nombre de la funcion, y parametros que va a recibir, en este caso se envia este mismo objeto por asi decirlo, las variables
             // Call user fn va a llamar una función cuando no sabemos cual sera

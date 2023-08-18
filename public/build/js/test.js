@@ -1,0 +1,1 @@
+function busquedaKeyPress(){const e=document.querySelectorAll(".expediente"),n=document.querySelector("#X01");e.forEach(e=>{e.addEventListener("input",(function(){console.log(e.value),n.value=e.value}))})}document.addEventListener("DOMContentLoaded",(function(){busquedaKeyPress()}));

@@ -12,10 +12,9 @@ class APIController
 
     public static function index()
     {
+        //  $id = $_GET['id'];
 
-        // $id = $_GET['id'];
-
-        // $servicios = Servicio::where('id',$id);
+        //  $servicios = Servicio::where('id',$id);
         $servicios = Servicio::all();
 
         echo json_encode($servicios);
@@ -24,6 +23,7 @@ class APIController
 
     public static function guardar()
     {
+        
         //almacena la cita y devuelve el id        
         $cita = new Cita($_POST);
         $resultado = $cita->guardar();
@@ -47,5 +47,13 @@ class APIController
 
         
         echo json_encode(['resultado'=>$resultado]);
+    }
+
+
+
+
+
+    public static function eliminar(){
+        echo "eliminando";
     }
 }
