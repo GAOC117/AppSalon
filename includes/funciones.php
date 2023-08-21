@@ -29,3 +29,10 @@ if(!isset($_SESSION['login']))
     }
 
 }
+function isAdmin():void{
+if(!isset($_SESSION['admin']))
+    {
+        header('Location: /');
+    }
+
+}
