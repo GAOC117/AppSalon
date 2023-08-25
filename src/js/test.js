@@ -1,6 +1,7 @@
 
 document.addEventListener('DOMContentLoaded', function () {
-    busquedaKeyPress();
+   // busquedaKeyPress();
+   alertaa();
 
 })
 
@@ -14,4 +15,12 @@ function busquedaKeyPress(){
     });
 })
 
+}
+
+
+function alertaa(){
+    const boton = document.querySelector('#act');
+    boton.addEventListener('click', function(){
+        alert("Diste click");
+    })
 }

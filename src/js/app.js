@@ -41,7 +41,7 @@ function iniciarApp() {
     seleccionarHora(); //añade la hora de la cita en el objeto
     mostrarResumen(); //muestra el resumen de la cita
 
-    
+  
     
     
 
@@ -448,7 +448,6 @@ catch(error)
       console.log(error);
 }
 }
-
 
 
 

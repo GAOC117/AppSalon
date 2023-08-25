@@ -32,6 +32,7 @@ class ServicioController
 
       if (empty($alertas)) {
         $servicio->guardar();
+       
         header('Location: /servicios');
       }
     }

@@ -13,11 +13,11 @@ include_once __DIR__ . '/../templates/barra.php';
             <p>Nombre: <span><?php echo $servicio->nombre ?></span></p>
             <p>Precio:<span> $<?php echo $servicio->precio ?></span></p>
             <div class="acciones">
-                <a class="boton" href="/servicios/actualizar?id=<?php echo $servicio->id ?>">Actualizar</a>
+                <a class="boton" href="/servicios/actualizar?id=<?php echo $servicio->id ?>" >Actualizar</a>
 
                 <form action="/servicios/eliminar" method="POST">
                     <input type="hidden" name="id" value="<?php echo $servicio->id ?>">
-                    <input type="submit" value="Borrar" class="boton-eliminar">
+                    <input type="submit" value="Borrar" class="boton-eliminar" >
                 </form>
             </div>
         </li>
@@ -27,3 +27,5 @@ include_once __DIR__ . '/../templates/barra.php';
     <?php } ?>
 
 </ul>
+
+<?php
