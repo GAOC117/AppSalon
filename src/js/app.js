@@ -151,7 +151,8 @@ function botonesPaginador() {
 async function consultarAPI() {
 
     try {
-            const url ='http://localhost:3000/api/servicios';
+            // const url =`${location.origin}/api/servicios`;
+            const url ='/api/servicios';  //si el backend y el JS esten en el mismo dominio
             // const url ='http://127.0.0.1:3000/api/servicios';
             const resultado = await fetch(url);
             const servicios = await resultado.json();
@@ -411,7 +412,7 @@ async function reservarCita(){
     try{
 
         
-        const url = 'http://localhost:3000/api/citas';
+        const url = '/api/citas';
         
     const respuesta = await fetch(url,{
         

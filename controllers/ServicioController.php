@@ -12,6 +12,7 @@ class ServicioController
   {
     session_start();
 
+    isAdmin();
     $servicios = Servicio::all();
     $router->renderView('servicios/index', [
       'nombre' => $_SESSION['nombre'],
@@ -24,6 +25,7 @@ class ServicioController
 
     session_start();
 
+    isAdmin();
     $servicio = new Servicio;
     $alertas = [];
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -47,7 +49,7 @@ class ServicioController
   public static function actualizar(Router $router)
   {
     session_start();
-
+    isAdmin();
     
     $id = $_GET['id']; //evitamos que en la url pongan algo como delete from, etc
     if(!is_numeric($id)) return;
@@ -75,11 +77,16 @@ class ServicioController
   }
 
 
-  public static function eliminar(Router $router)
+  public static function eliminar()
   {
 
     session_start();
+    isAdmin();
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+      $id = $_POST['id'];
+      $servicio = Servicio::find($id);
+      $servicio->eliminar();
+      header('Location: /servicios');
     }
   }
 }
