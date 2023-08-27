@@ -1,0 +1,5 @@
+host: nyc.domcloud.id
+u: appsalonx01
+p: 19(k5bYU3U+j)DzrW4
+
+bd:appsalonx01_db

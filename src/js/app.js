@@ -433,6 +433,7 @@ async function reservarCita(){
         }).then(()=>{
             setTimeout(() => {
                 window.location.reload();
+                // window.location.replace("Pagina a redirigir")
                 
             }, 3000);
         })
